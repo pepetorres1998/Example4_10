@@ -36,11 +36,11 @@ def RestLife(life, total_damage):
         return life-total_damage
 
 def Peso(h1, h2, poder):
-    print(CalculateDamage(h1, h2, poder))
-    print(RestLife(h2.vida, CalculateDamage(h1, h2, poder)))
+    #print(CalculateDamage(h1, h2, poder))
+    #print(RestLife(h2.vida, CalculateDamage(h1, h2, poder)))
     d_r = CalculateDamage(h1, h2, poder)*Recoil(CalculateDamage(h1, h2, poder), poder, h1)
     peso_total = d_r*EnergyLeft(h1, poder)
-    return peso_total
+    return int(peso_total)
 
 #def CalculateEnergy(hero1, poder):
 
@@ -60,7 +60,8 @@ Tormenta = h.Tormenta()
 
 #print(CalculateDamage(k1, s2, Explosion))
 #print(RestLife(s2.vida, CalculateDamage(k1, s2, Tormenta)))
-print(Peso(k1, s2, Tormenta))
-print(Peso(k1, s2, Explosion))
-print(Peso(k1, s1, Explosion))
-print(Peso(k1, s1, Llamarada))
+if(__name__ == '__main__'):
+    print(Peso(k1, s2, Tormenta))
+    print(Peso(k1, s2, Explosion))
+    print(Peso(k1, s1, Explosion))
+    print(Peso(k1, s1, Llamarada))

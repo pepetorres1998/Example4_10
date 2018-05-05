@@ -34,11 +34,11 @@ class Guerrero(Heroe):
 class KOer(Heroe):
     def __init__(self, name, element):
         super().__init__(name, element)
-        self.defensa = 0.2
+        self.defensa = 0.3
         self.ataque = 3
         self.energia = 3
         self.recuperacion = 0
-        self.vida = 65
+        self.vida = 100
 
 #BASE
 class Golpe():
