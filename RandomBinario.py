@@ -35,10 +35,13 @@ poder_list = [GolpeFuego, BolaFuego, Llamarada, Explosion, GolpeRayo, BolaRayo, 
 a = sys.argv[1]
 
 def generate_binary(a):
-    list = []
+    list_r = []
     for i in range(int(a)):
-        list.append("{0:020b}".format(random.randint(1, (2**20)+1)))
-    return list
+        random_ones = "{0:020b}".format(random.randint(0, (2**4)))
+        templist = list(random_ones)
+        random.shuffle(templist)
+        list_r.append("".join(templist))
+    return list_r
 
 def posicion_true(lista):
     posicion = []
@@ -94,4 +97,6 @@ print()
 print()
 peso_cromosomas = poderes_main(poder_list, pos, c.k1, c.s2)
 print(peso_cromosomas)
+peso_generacion = sum(peso_cromosomas)
+print(peso_generacion)
 #poderes_true(poder_list, pos)
