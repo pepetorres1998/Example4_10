@@ -95,8 +95,10 @@ def seleccion_cromosomas(peso_cromo, peso_gen):
     print(cromo_prob)
     print(sum(cromo_prob))
     ruleta = "{0:.2f}".format(random.random())
-    return ruleta #sumar valores de cromo_prob y si es maor que ruleta, es el cromosoma elegido
+    return ruleta #sumar valores de cromo_prob y si es mayor que ruleta, es el cromosoma elegido
 
+#Esto es un comentario para probar si el commit se aplica y se diferencian las branches
+#GRACIAS :*
 
 blist = generate_binary(a)
 pos = posicion_true(blist)
