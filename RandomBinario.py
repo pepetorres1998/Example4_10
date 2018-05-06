@@ -89,16 +89,31 @@ def poderes_main(poder, pos, h1, h2):
     return peso_cromosomas
 
 def seleccion_cromosomas(peso_cromo, peso_gen):
+    nueva_generacion = []
+    generacion_temporal = []
     cromo_prob = []
     for i in peso_cromo:
         cromo_prob.append(i/peso_gen)
     print(cromo_prob)
     print(sum(cromo_prob))
-    ruleta = "{0:.2f}".format(random.random())
-    return ruleta #sumar valores de cromo_prob y si es mayor que ruleta, es el cromosoma elegido
+    while(len(generacion_temporal) < 20):
+        ruleta = random.random()
+        print(ruleta) #sumar valores de cromo_prob y si es mayor que ruleta, es el cromosoma elegido
+        ruleta_sum = 0
+        for i in range(len(cromo_prob)):
+            ruleta_sum = ruleta_sum+cromo_prob[i]
+            print(ruleta_sum)
+            if(ruleta_sum > ruleta):
+                generacion_temporal.append(blist[i])
+                print(generacion_temporal)
+                break
+            else:
+                print('still minor')
+                continue
+    return(generacion_temporal)
 
 #Esto es un comentario para probar si el commit se aplica y se diferencian las branches
-#GRACIAS :*
+#GRACIAS :* SI FUNCIONAAAA!!!!
 
 blist = generate_binary(a)
 pos = posicion_true(blist)
@@ -111,4 +126,4 @@ peso_cromosomas = poderes_main(poder_list, pos, c.k1, c.s2)
 print(peso_cromosomas)
 peso_generacion = sum(peso_cromosomas)
 print(peso_generacion)
-print(seleccion_cromosomas(peso_cromosomas, peso_generacion))
+print(sorted(seleccion_cromosomas(peso_cromosomas, peso_generacion)))
