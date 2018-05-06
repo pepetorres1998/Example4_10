@@ -88,6 +88,16 @@ def poderes_main(poder, pos, h1, h2):
         print(peso_cromosomas)
     return peso_cromosomas
 
+def seleccion_cromosomas(peso_cromo, peso_gen):
+    cromo_prob = []
+    for i in peso_cromo:
+        cromo_prob.append(i/peso_gen)
+    print(cromo_prob)
+    print(sum(cromo_prob))
+    ruleta = "{0:.2f}".format(random.random())
+    return ruleta #sumar valores de cromo_prob y si es maor que ruleta, es el cromosoma elegido
+
+
 blist = generate_binary(a)
 pos = posicion_true(blist)
 
@@ -99,4 +109,4 @@ peso_cromosomas = poderes_main(poder_list, pos, c.k1, c.s2)
 print(peso_cromosomas)
 peso_generacion = sum(peso_cromosomas)
 print(peso_generacion)
-#poderes_true(poder_list, pos)
+print(seleccion_cromosomas(peso_cromosomas, peso_generacion))
