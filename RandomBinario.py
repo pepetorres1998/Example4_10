@@ -89,14 +89,29 @@ def poderes_main(poder, pos, h1, h2):
         #print(peso_cromosomas)
     return peso_cromosomas
 
+def combinar_listas(lista1, lista2):
+    return dict(zip(lista1, lista2))
+
 def mayor_peso(peso_cromosomas):
     sorteados = sorted(peso_cromosomas)
     mejor = sorteados[len(peso_cromosomas)-1]
     return mejor
 
+def mayor_peso_index(index_cromosomas):
+    sorteados = sorted(index_cromosomas)
+    mejor = sorteados[len(index_cromosomas)-1]
+    return index_cromosomas[mejor]
+
 def mayor_todos(mayores_lista):
-    mayores_lista.sort()
-    return(mayores_lista[len(mayores_lista)-1])
+    t_temporal = sorted(mayores_lista)
+    return(t_temporal[len(t_temporal)-1])
+
+def mayor_todos_index(mayores_lista, mayores_index, mayores_todos_lista):
+    for i in range(len(mayores_lista)):
+        if(mayores_lista[i] == mayores_todos_lista):
+            pos_temp = i
+            break
+    return mayores_index[i]
 
 def seleccion_cromosomas(peso_cromo, peso_gen, blist):
     generacion_temporal = []
@@ -152,8 +167,11 @@ def seleccion_cromosomas(peso_cromo, peso_gen, blist):
 #GRACIAS :* SI FUNCIONAAAA!!!!
 
 def main_program():
+    mayores_lista = []
+    mayores_index = []
     for i in range(iter):
-        blist = generate_binary(a)
+        if(i == 0):
+            blist = generate_binary(a)
         pos = posicion_true(blist)
         print(blist)
         #print(pos)
@@ -161,11 +179,19 @@ def main_program():
         #print()
         peso_cromosomas = poderes_main(poder_list, pos, c.k1, c.s2)
         #print(peso_cromosomas)
-        mayor_peso(peso_cromosomas)
+        index_cromosomas = combinar_listas(peso_cromosomas, blist)
+        print(index_cromosomas)
+        mayores_index.append(mayor_peso_index(index_cromosomas))
+        mayores_lista.append(mayor_peso(peso_cromosomas))
         peso_generacion = sum(peso_cromosomas)
         #print(peso_generacion)
-        nueva_generacion = seleccion_cromosomas(peso_cromosomas, peso_generacion, blist)
-        print(nueva_generacion)
+        blist = seleccion_cromosomas(peso_cromosomas, peso_generacion, blist)
+        print(blist)
         print()
+    print(mayores_index)
+    print(mayores_lista)
+    mayores_todos_lista = mayor_todos(mayores_lista)
+    mayores_todos_index = mayor_todos_index(mayores_lista, mayores_index, mayores_todos_lista)
+    print(mayores_todos_lista, mayores_todos_index)
 
 main_program()
