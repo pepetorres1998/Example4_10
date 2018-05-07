@@ -89,7 +89,16 @@ def poderes_main(poder, pos, h1, h2):
         #print(peso_cromosomas)
     return peso_cromosomas
 
-def seleccion_cromosomas(peso_cromo, peso_gen):
+def mayor_peso(peso_cromosomas):
+    sorteados = sorted(peso_cromosomas)
+    mejor = sorteados[len(peso_cromosomas)-1]
+    return mejor
+
+def mayor_todos(mayores_lista):
+    mayores_lista.sort()
+    return(mayores_lista[len(mayores_lista)-1])
+
+def seleccion_cromosomas(peso_cromo, peso_gen, blist):
     generacion_temporal = []
     cromo_prob = []
     for i in peso_cromo:
@@ -142,17 +151,21 @@ def seleccion_cromosomas(peso_cromo, peso_gen):
 #Esto es un comentario para probar si el commit se aplica y se diferencian las branches
 #GRACIAS :* SI FUNCIONAAAA!!!!
 
-for i in range(iter):
-    blist = generate_binary(a)
-    pos = posicion_true(blist)
-    print(blist)
-    #print(pos)
-    print()
-    #print()
-    peso_cromosomas = poderes_main(poder_list, pos, c.k1, c.s2)
-    #print(peso_cromosomas)
-    peso_generacion = sum(peso_cromosomas)
-    #print(peso_generacion)
-    nueva_generacion = seleccion_cromosomas(peso_cromosomas, peso_generacion)
-    print(nueva_generacion)
-    print()
+def main_program():
+    for i in range(iter):
+        blist = generate_binary(a)
+        pos = posicion_true(blist)
+        print(blist)
+        #print(pos)
+        print()
+        #print()
+        peso_cromosomas = poderes_main(poder_list, pos, c.k1, c.s2)
+        #print(peso_cromosomas)
+        mayor_peso(peso_cromosomas)
+        peso_generacion = sum(peso_cromosomas)
+        #print(peso_generacion)
+        nueva_generacion = seleccion_cromosomas(peso_cromosomas, peso_generacion, blist)
+        print(nueva_generacion)
+        print()
+
+main_program()
