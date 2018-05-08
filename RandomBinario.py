@@ -65,6 +65,15 @@ def poderes_true(poder, pos):
                 print(poder[j].damage)
                 print()
 
+def poderes_recomendados(poder, pos):
+    for j in range(20):
+        if(j in pos[0]):
+            print(j+1)
+            print(poder[j].__class__.__name__)
+            print(poder[j].damage)
+            print()
+
+
 def poderes_main(poder, pos, h1, h2):
     peso_cromosomas = []
     for i in range(int(a)):#for para lista de cromosomas
@@ -193,5 +202,8 @@ def main_program():
     mayores_todos_lista = mayor_todos(mayores_lista)
     mayores_todos_index = mayor_todos_index(mayores_lista, mayores_index, mayores_todos_lista)
     print(mayores_todos_lista, mayores_todos_index)
+    pos = posicion_true([mayores_todos_index])
+    print(pos)
+    poderes_recomendados(poder_list, pos)
 
 main_program()

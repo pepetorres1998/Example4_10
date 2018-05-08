@@ -29,11 +29,17 @@ def EnergyLeft(h1, poder):
         return 1
 
 def RestLife(life, total_damage):
-    print(str(life) + ' - ' + str(total_damage))
+    #print(str(life) + ' - ' + str(total_damage))
     if life-total_damage <= 0:
         return 0
     else:
         return life-total_damage
+
+def RestOwnLife(life, recoil):
+    if life-recoil <= 0:
+        return 0
+    else:
+        return life-recoil
 
 def Peso(h1, h2, poder):
     #print(CalculateDamage(h1, h2, poder))
