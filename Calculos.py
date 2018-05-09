@@ -1,5 +1,29 @@
 import Heroe as h
 
+def calcular_elementos_poder(h2, poder, total_damage):
+    if(poder.element == 'Fuego' and h2.element == 'Agua'):
+        return total_damage*0
+    elif(poder.element == 'Fuego' and h2.element == 'Aire'):
+        return total_damage*2
+    elif(poder.element == 'Agua' and h2.element == 'Rayo'):
+        return total_damage*0
+    elif(poder.element == 'Agua' and h2.element == 'Fuego'):
+        return total_damage*2
+    elif(poder.element == 'Rayo' and h2.element == 'Tierra'):
+        return total_damage*0
+    elif(poder.element == 'Rayo' and h2.element == 'Agua'):
+        return total_damage*2
+    elif(poder.element == 'Tierra' and h2.element == 'Aire'):
+        return total_damage*0
+    elif(poder.element == 'Tierra' and h2.element == 'Rayo'):
+        return total_damage*2
+    elif(poder.element == 'Aire' and h2.element == 'Fuego'):
+        return total_damage*0
+    elif(poder.element == 'Aire' and h2.element == 'Tierra'):
+        return total_damage*2
+    else:
+        return total_damage
+
 def CalculateDamage(h1, h2, poder):
     damage = h1.ataque*poder.damage
     #print(damage)
@@ -12,8 +36,9 @@ def CalculateDamage(h1, h2, poder):
         total_damage = total_damage*1.25
     #print(total_damage)
     if(poder.element == h2.element):
-        total_damage = total_damage*0.25
+        total_damage = total_damage*0
     #print(total_damage)
+    total_damage = calcular_elementos_poder(h2, poder, total_damage)
     return total_damage
 
 def Recoil(total_damage, poder, h1):
@@ -50,10 +75,29 @@ def Peso(h1, h2, poder):
 
 #def CalculateEnergy(hero1, poder):
 
-s1 = h.Samurai('Jose', 'Rayo')
-k1 = h.KOer('Antonio', 'Fuego')
-s2 = h.Samurai('Kid', 'Fuego')
-k2 = h.KOer('Jesus', 'Rayo')
+KOer_fuego = h.KOer('Arthit', 'Fuego')
+KOer_agua = h.KOer('Sasithorn', 'Agua')
+KOer_tierra = h.KOer('Ubon', 'Tierra')
+KOer_rayo = h.KOer('Pakpao', 'Rayo')
+KOer_aire = h.KOer('Sukhon', 'Aire')
+
+Samurai_fuego = h.Samurai('Huo', 'Fuego')
+Samurai_agua = h.Samurai('Shui', 'Agua')
+Samurai_tierra = h.Samurai('Tu', 'Tierra')
+Samurai_rayo = h.Samurai('Kyon', 'Rayo')
+Samurai_aire = h.Samurai('Fei', 'Aire')
+
+Asesino_fuego = h.Asesino('Ryu', 'Fuego')
+Asesino_agua = h.Asesino('Yoko', 'Agua')
+Asesino_tierra = h.Asesino('Riku', 'Tierra')
+Asesino_rayo = h.Asesino('Toshio', 'Rayo')
+Asesino_aire = h.Asesino('Sayaka', 'Aire')
+
+Guerrero_fuego = h.Guerrero('Lena', 'Fuego')
+Guerrero_agua = h.Guerrero('Ondina', 'Agua')
+Guerrero_tierra = h.Guerrero('Jorgen', 'Tierra')
+Guerrero_rayo = h.Guerrero('Thor', 'Rayo')
+Guerrero_aire = h.Guerrero('Aren', 'Aire')
 
 #FUEGO
 GolpeFuego = h.GolpeFuego()

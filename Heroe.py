@@ -182,20 +182,9 @@ class Terremoto(Alto):
         self.element = 'Tierra'
 
 
-
-#MAIN
-a1 = Asesino('RandomName1', 'Fuego')
-s1 = Samurai('SadBunny', 'Rayo')
-g1 = Guerrero('NotToday', 'Agua')
-k1 = KOer('SaltyRabbit', 'Aire')
-
-list1 = [a1, s1, g1, k1]
-
 def Printall(l):
     print('Nombre', 'Elemento', 'Vida', 'Defensa', 'Ataque', 'Energia', 'Recuperacion')
     for h1 in l:
         print(h1.__class__.__name__)
         print(h1.name, h1.element, h1.vida, h1.defensa, h1.ataque, h1.energia, h1.recuperacion)
         print()
-
-#Printall(list1)
