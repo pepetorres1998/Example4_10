@@ -196,7 +196,7 @@ def main_program():
         #print(pos)
         print()
         #print()
-        peso_cromosomas = poderes_main(poder_list, pos, c.Samurai_rayo, c.Asesino_agua)
+        peso_cromosomas = poderes_main(poder_list, pos, c.Samurai_rayo, c.Asesino_fuego)
         print(peso_cromosomas)
         index_cromosomas = combinar_listas(peso_cromosomas, blist)
         print(index_cromosomas)
