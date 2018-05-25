@@ -28,12 +28,41 @@ BolaTierra = h.BolaTierra()
 Derrumbe = h.Derrumbe()
 Terremoto = h.Terremoto()
 
+#PERSONAJES
+KOerFuego = h.KOer('Arthit', 'Fuego')
+KOerAgua = h.KOer('Sasithorn', 'Agua')
+KOerTierra = h.KOer('Ubon', 'Tierra')
+KOerRayo = h.KOer('Pakpao', 'Rayo')
+KOerAire = h.KOer('Sukhon', 'Aire')
+
+SamuraiFuego = h.Samurai('Huo', 'Fuego')
+SamuraiAgua = h.Samurai('Shui', 'Agua')
+SamuraiTierra = h.Samurai('Tu', 'Tierra')
+SamuraiRayo = h.Samurai('Kyon', 'Rayo')
+SamuraiAire = h.Samurai('Fei', 'Aire')
+
+AsesinoFuego = h.Asesino('Ryu', 'Fuego')
+AsesinoAgua = h.Asesino('Yoko', 'Agua')
+AsesinoTierra = h.Asesino('Riku', 'Tierra')
+AsesinoRayo = h.Asesino('Toshio', 'Rayo')
+AsesinoAire = h.Asesino('Sayaka', 'Aire')
+
+GuerreroFuego = h.Guerrero('Lena', 'Fuego')
+GuerreroAgua = h.Guerrero('Ondina', 'Agua')
+GuerreroTierra = h.Guerrero('Jorgen', 'Tierra')
+GuerreroRayo = h.Guerrero('Thor', 'Rayo')
+GuerreroAire = h.Guerrero('Aren', 'Aire')
+
+personajes_list = [SamuraiFuego, SamuraiAgua, SamuraiTierra, SamuraiAire, SamuraiRayo,
+                GuerreroFuego, GuerreroAgua, GuerreroTierra, GuerreroAire, GuerreroRayo,
+                KOerFuego, KOerAgua, KOerTierra, KOerAire, KOerRayo,
+                AsesinoFuego, AsesinoAgua, AsesinoTierra, AsesinoAire, AsesinoRayo]
 
 poder_list = [GolpeFuego, BolaFuego, Llamarada, Explosion, GolpeRayo, BolaRayo, Relampago, Tormenta,
             GolpeAgua, BolaAgua, Ciclon, Tsunami, GolpeAire, BolaAire, Ventisca, Tornado,
             GolpeRoca, BolaTierra, Derrumbe, Terremoto]
-iter = int(sys.argv[2])
-a = sys.argv[1]
+iter = 40
+a = 40
 
 #Funcion que genera los cromosomas binarios, recibe el primer argumento del cmd
 def generate_binary(a):
@@ -102,6 +131,28 @@ def poderes_main(poder, pos, h1, h2):
         peso_cromosomas.append(peso_total)
         #print(peso_cromosomas)
     return peso_cromosomas
+
+#Funcion que regresa los 3 poderes de mayor peso, del cromosoma de mayor peso, de todas las
+#generaciones.
+def poderes_indiv(poder, pos, h1, h2):
+    peso_cromosomas = []
+    peso_cromo_1 = {}
+    poderes_sorted = []
+    for j in range(20):#for para cromosoma
+        if(j in pos[0]):
+            peso_cromosomas.append(c.Peso(h1, h2, poder[j]))
+            peso_cromo_1[c.Peso(h1, h2, poder[j])] = poder[j].__class__.__name__#Hacer todo en peso_cromosomas
+        peso_sorted = sorted(peso_cromosomas)
+        peso_sorted = peso_sorted[::-1]
+    for i in range(len(peso_sorted)):
+        poderes_sorted.append(peso_cromo_1.get(peso_sorted[i]))
+    #print(poderes_sorted)
+    #print(peso_sorted)
+    mejores = poderes_sorted[:3]
+    #print(mejores)
+    return mejores
+    #return peso_sorted
+
 
 #Funcion que combina dos listas en un índice
 def combinar_listas(lista1, lista2):
@@ -185,7 +236,7 @@ def seleccion_cromosomas(peso_cromo, peso_gen, blist):
     return generacion_temporal
 
 #Funcion main
-def main_program():
+def main_program(h1, h2):
     mayores_lista = []
     mayores_index = []
     for i in range(iter):
@@ -196,7 +247,7 @@ def main_program():
         #print(pos)
         print()
         #print()
-        peso_cromosomas = poderes_main(poder_list, pos, c.Samurai_rayo, c.Asesino_fuego)
+        peso_cromosomas = poderes_main(poder_list, pos, h1, h2)
         print(peso_cromosomas)
         index_cromosomas = combinar_listas(peso_cromosomas, blist)
         print(index_cromosomas)
@@ -215,5 +266,86 @@ def main_program():
     pos = posicion_true([mayores_todos_index])
     print(pos)
     poderes_recomendados(poder_list, pos)
+    mejores_3 = poderes_indiv(poder_list, pos, h1, h2)
+    #print(h1.name)
 
-main_program()
+def checar_personaje(strh):
+    if(strh == 'Samurai Fuego'):
+        return SamuraiFuego
+    elif(strh == 'Samurai Agua'):
+        return SamuraiAgua
+    elif(strh == 'Samurai Tierra'):
+        return SamuraiTierra
+    elif(strh == 'Samurai Aire'):
+        return SamuraiAire
+    elif(strh == 'Samurai Rayo'):
+        return SamuraiRayo
+    elif(strh == 'Guerrero Fuego'):
+        return GuerreroFuego
+    elif(strh == 'Guerrero Agua'):
+        return GuerreroAgua
+    elif(strh == 'Guerrero Tierra'):
+        return GuerreroTierra
+    elif(strh == 'Guerrero Aire'):
+        return GuerreroAire
+    elif(strh == 'Guerrero Rayo'):
+        return GuerreroRayo
+    elif(strh == 'Asesino Fuego'):
+        return AsesinoFuego
+    elif(strh == 'Asesino Agua'):
+        return AsesinoAgua
+    elif(strh == 'Asesino Tierra'):
+        return AsesinoTierra
+    elif(strh == 'Asesino Aire'):
+        return AsesinoAire
+    elif(strh == 'Asesino Rayo'):
+        return AsesinoRayo
+    elif(strh == 'KOer Fuego'):
+        return KOerFuego
+    elif(strh == 'KOer Agua'):
+        return KOerAgua
+    elif(strh == 'KOer Tierra'):
+        return KOerTierra
+    elif(strh == 'KOer Aire'):
+        return KOerAire
+    elif(strh == 'KOer Rayo'):
+        return KOerRayo
+
+def main_recomendacion_interfaz(strh1, strh2):
+    h1 = checar_personaje(strh1)
+    h2 = checar_personaje(strh2)
+    mayores_lista = []
+    mayores_index = []
+    for i in range(iter):
+        if(i == 0):
+            blist = generate_binary(a)
+        pos = posicion_true(blist)
+        #print(blist)
+        #print(pos)
+        #print()
+        #print()
+        peso_cromosomas = poderes_main(poder_list, pos, h1, h2)
+        #print(peso_cromosomas)
+        index_cromosomas = combinar_listas(peso_cromosomas, blist)
+        #print(index_cromosomas)
+        mayores_index.append(mayor_peso_index(index_cromosomas))
+        mayores_lista.append(mayor_peso(peso_cromosomas))
+        peso_generacion = sum(peso_cromosomas)
+        #print(peso_generacion)
+        blist = seleccion_cromosomas(peso_cromosomas, peso_generacion, blist)
+        #print(blist)
+        #print()
+    #print(mayores_index)
+    #print(mayores_lista)
+    mayores_todos_lista = mayor_todos(mayores_lista)
+    mayores_todos_index = mayor_todos_index(mayores_lista, mayores_index, mayores_todos_lista)
+    #print(mayores_todos_lista, mayores_todos_index)
+    pos = posicion_true([mayores_todos_index])
+    #print(pos)
+    #poderes_recomendados(poder_list, pos)
+    mejores_3 = poderes_indiv(poder_list, pos, h1, h2)
+    #print(h1.name)
+    return mejores_3
+
+if(__name__ == '__main__'):
+    main_program(SamuraiFuego, GuerreroRayo)
