@@ -3,14 +3,16 @@ import RandomBinario as rb
 
 def main():
     pygame.init()
-    difficulty = 10
-    red = 255, 0, 0
-    black = 0, 0, 0
-    white = 255, 255, 255
-    yellow = 255, 255, 0
-    size = width, height = 600, 550
-    font = pygame.font.SysFont(None, 23)
-    font_2 = pygame.font.SysFont(None, 40)
+    difficulty = 6 #velocidad del jugador
+    red = 255, 0, 0 #color rogo rbg
+    black = 0, 0, 0 #color negro rbg
+    white = 255, 255, 255 #color blanco rbg
+    yellow = 255, 255, 0 #color amarillo rbg
+    size = width, height = 600, 550 #anchura y largura de ventana
+    font = pygame.font.SysFont(None, 23) #fuente tamaño 23
+    font_2 = pygame.font.SysFont(None, 40) #fuente tamaño 40
+
+    #lista de personajes
     listaOponentes = ['Samurai Fuego', 'Samurai Agua', 'Samurai Tierra', 'Samurai Aire', 'Samurai Rayo',
                     'Guerrero Fuego', 'Guerrero Agua', 'Guerrero Tierra', 'Guerrero Aire', 'Guerrero Rayo',
                     'KOer Fuego', 'KOer Agua', 'KOer Tierra', 'KOer Aire', 'KOer Rayo',
@@ -24,80 +26,88 @@ def main():
         screen_text = font_2.render(msg, True, color)
         screen.blit(screen_text, [x, y])
 
-    x = round((225/difficulty))*difficulty
-    y = round((200/difficulty))*difficulty
+    #coordenadas para el punto inicial del jugador
+    x = round(((width/2)/difficulty))*difficulty
+    y = round(((height/2)/difficulty))*difficulty
+
+    #coordenadas para el punto inicial de un 'punto'
     p1 = round(random.randint(1, width-difficulty)/difficulty)*difficulty
     p2 = round(random.randint(1, height-difficulty)/difficulty)*difficulty
-    opo = random.randint(0, 20)
+    opo = random.randint(0, 20) #numero al azar para el enemigo
     #print(p1, p2)
-    change_x = 0
-    change_y = 0
-    a = 0
-    pantalla = 0
-    personaje_actual = 'Huo'
-    perso = 0
-    battle = 0
-    timer = 0
-    timer_1 = 0
-    ataque_actual = 'GolpeFuego'
-    pygame.event.set_blocked(pygame.MOUSEMOTION)
-    clock = pygame.time.Clock()
-    screen = pygame.display.set_mode(size)
-    pygame.display.set_caption('Juegochido')
-    #outZone = pygame.event.Event(pygame.QUIT, {'motivo':'Out of zone'})
-    #outBattle = pygame.event.Event(pygame.QUIT, {'motivo':'5 batallas'})
-    COLITION = pygame.USEREVENT
+    change_x = 0 #varible para sumar a la posicion del jugador(velocidad constante)
+    change_y = 0 #varible para sumar a la posicion del jugador(velocidad constante)
+    a = 0 #variable para controlar la velocidad en que los enemigos cambian de posicion
+    pantalla = 0 #variable para cambiar de pantallas
+    personaje_actual = 'Huo' #variable para el personaje actual
+    perso = 0 #variable para el personaje principal en la lista de personajes
+    battle = 0 #variable para el conteo de batallas luchadas
+    timer = 0 #conteo del tiempo en la pantalla 3
+    timer_1 = 0 #conteo del tiempo en la pantalla 2
+    ataque_actual = 'GolpeFuego' #variable para el ataque seleccionado actualmente
+    pygame.event.set_blocked(pygame.MOUSEMOTION) #funcion para bloquear eventos relacionados con el movimiento del mouse
+    clock = pygame.time.Clock() #instancia del reloj interno del juego, para los frames per second
+    screen = pygame.display.set_mode(size) #instancia de la ventana
+    pygame.display.set_caption('Juegochido') #mensaje que aparece arriba de la ventana
+    COLITION = pygame.USEREVENT #variable que contiene un tipo de evento creado por el usuario, controla colisiones
+
+    #evento creado por el usuario para la colision con los puntos
     pointReached = pygame.event.Event(COLITION, {'object': 'point','p1': p1, 'p2': p2})
+
+    #evento creado por el usuario para la colision con los puntos
     battleReached = pygame.event.Event(COLITION, {'object': 'enemy', 'x': x, 'y': y})
-    pointCounter = 0
-    while True:
-        while(pantalla == 1):
+
+    pointCounter = 0 #contador de puntos
+    while True: #juego principal
+        while(pantalla == 1): #pantalla 1, es la que controla la mecanica del juego
             #check for quit events
-            for event in pygame.event.get():
+            for event in pygame.event.get():#revisa si hay eventos entrantes
                 #print(event)
-                if(event.type == pygame.QUIT):
+                if(event.type == pygame.QUIT):#if el tipo de evento es del tipo quitar
                     sys.exit()
-                if(event.type == pygame.KEYDOWN):
-                    if event.key == pygame.K_LEFT:
+                if(event.type == pygame.KEYDOWN):#si el tipo de evento es del tipo tecla presionada
+                    if event.key == pygame.K_LEFT:#si es la flecha izquierda
                         change_x = 0-difficulty
                         change_y = 0
-                    elif event.key == pygame.K_RIGHT:
+                    elif event.key == pygame.K_RIGHT:#si es la flecha derecha
                         change_x = difficulty
                         change_y = 0
-                    elif event.key == pygame.K_UP:
+                    elif event.key == pygame.K_UP:#si es la flecha hacia arriba
                         change_y = 0-difficulty
                         change_x = 0
-                    elif event.key == pygame.K_DOWN:
+                    elif event.key == pygame.K_DOWN:#si es la flecha hacia abajo
                         change_y = difficulty
                         change_x = 0
 
-                if(event.type == COLITION):
-                    if(event.object == 'point'):
+                if(event.type == COLITION):#si el evento es una colision
+                    if(event.object == 'point'):#si la colision es con un punto
                         p1 = round(random.randint(1, width-difficulty)/difficulty)*difficulty
                         p2 = round(random.randint(1, height-difficulty)/difficulty)*difficulty
                         pointCounter += 1
                         #print(p1, p2)
-                    if(event.object == 'enemy'):
+                    if(event.object == 'enemy'):#si la colision es con un enemigo
                         mr = rb.main_recomendacion_interfaz(listaOponentes[perso], listaOponentes[opo])
-                        if(battle == 9):
+                        if(battle == 9):#si ya van mas de 9 batallas
                             pantalla = 3
                         else:
                             timer_1 = 0
                             pantalla = 2
                         change_x = 0
                         change_y = 0
-                        for i in range(limite):
+                        for i in range(limite):#esconder enemigos
                             w[i] = 0
                             z[i] = 0
                         a = 20
                         battle += 1
 
             #frames per second
-            msElapsed = clock.tick(30)
+            msElapsed = clock.tick(30)#fps del juego
 
+            #cambiar posicion del jugador
             x += change_x
             y += change_y
 
+            #pierde si el jugador se sale de la ventana
             if(x > width):
                 pantalla = 3
             elif(x < 0):
@@ -105,17 +115,16 @@ def main():
             elif(y > height):
                 pantalla = 3
             elif(y < 0):
-                #pygame.event.post(pointReached)
                 pantalla = 3
 
             #erase the screen
-            screen.fill(black)
+            screen.fill(black)#rellena la pantalla de negro
 
-            message_to_screen('Puntaje: '+str(pointCounter), yellow, 0, 0)
+            message_to_screen('Puntaje: '+str(pointCounter), yellow, 0, 0)#imprime el puntaje
 
-            point = pygame.draw.circle(screen, yellow, [p1, p2], 5)
+            point = pygame.draw.circle(screen, yellow, [p1, p2], 5)#genera el punto
 
-            if(a % 50 == 0):
+            if(a % 50 == 0):#genera a los enemigos cada 50 iteraciones
                 a = 0
                 limite = random.randint(5, 20)
                 w = []
@@ -131,11 +140,13 @@ def main():
             a += 1
 
             #drawing
-            player = pygame.draw.circle(screen, white, [x, y], 5)
+            player = pygame.draw.circle(screen, white, [x, y], 5)#dibuja el jugador
 
+            #checa colisiones con el punto
             if((x == p1-difficulty or x == p1+difficulty or x == p1) and (y == p2-difficulty or y == p2+difficulty or y == p2)):
                 pygame.event.post(pointReached)
 
+            #checa colisiones con los enemigos
             for i in range(limite):
                 if((x == w[i] or x == w[i]-difficulty or x == w[i]+difficulty) and (y == z[i] or y == z[i]-difficulty or y == z[i]+difficulty)):
                     pygame.event.post(battleReached)
@@ -143,12 +154,12 @@ def main():
             #update the screen
             pygame.display.update()
 
-        while(pantalla == 0):
+        while(pantalla == 0):#pantalla 0, es para elegir el personaje nuestro
             for event in pygame.event.get():
                 #print(event)
                 if(event.type == pygame.QUIT):
                     sys.exit()
-                if(event.type == pygame.KEYDOWN):
+                if(event.type == pygame.KEYDOWN):#si se presiona una tecla, para controlar personaje elegido
                     if(event.unicode == '0'):
                         personaje_actual = 'Huo'
                         perso = 0
@@ -213,10 +224,11 @@ def main():
                         pantalla = 1
 
 
-            msElapsed = clock.tick(30)
+            msElapsed = clock.tick(30)#fps
 
-            screen.fill(black)
+            screen.fill(black)#rellena pantalla de negro
 
+            #mensajes de la pantalla 0, para mostrar personajes
             message_to_screen('Seleccione un personaje:', yellow, 0, 0)
             message_to_screen('0.- Huo - Samurai Fuego', yellow, 0, 20)
             message_to_screen('1.- Shui - Samurai Agua', yellow, 0, 40)
@@ -244,8 +256,8 @@ def main():
 
             pygame.display.update()
 
-        while(pantalla == 2):
-            for event in pygame.event.get():
+        while(pantalla == 2):#pantalla 2, es para mostrar las batallas
+            for event in pygame.event.get():#obtener eventos
                 #print(event)
                 if(event.type == pygame.QUIT):
                     sys.exit()
@@ -291,15 +303,15 @@ def main():
                     if(event.unicode == 'j'):
                         ataque_actual = 'Terremoto'
                     if(event.key == 32):
-                        opo = random.randint(0, 20)
+                        opo = random.randint(0, 20)#nuevo oponente al azar
                         #print(opo)
                         #print(timer_1)
-                        if(ataque_actual in mr):
+                        if(ataque_actual in mr):#si el ataque es de los recomendados
                             pantalla = 1
                         else:
                             pantalla = 3
 
-            if(timer_1 == 150):
+            if(timer_1 == 150):#timer
                 pantalla = 3
 
             msElapsed = clock.tick(30)
@@ -340,20 +352,20 @@ def main():
 
             pygame.display.update()
 
-        while(pantalla == 3):
+        while(pantalla == 3):#pantalla 3, pantalla que aparece cuando pierdes
             for event in pygame.event.get():
                 #print(event)
                 if(event.type == pygame.QUIT):
                     sys.exit()
 
-            msElapsed = clock.tick(30)
+            msElapsed = clock.tick(30)#fps
 
-            screen.fill(black)
+            screen.fill(black)#rellenar pantalla de negro
 
-            message_perdiste('YOU LOSE', red, 225, 225)
-            message_perdiste('Puntaje: '+str(pointCounter), red, 225, 275)
+            message_perdiste('YOU LOSE', red, 225, 225)#aparece el mensaje de perdiste
+            message_perdiste('Puntaje: '+str(pointCounter), red, 225, 275)#imprimir el contador de puntos
 
-            if(timer > 75):
+            if(timer > 75):#timer antes de salir
                 sys.exit()
 
             timer += 1
