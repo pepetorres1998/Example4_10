@@ -3,7 +3,7 @@ import RandomBinario as rb
 
 def main():
     pygame.init()
-    difficulty = 6 #velocidad del jugador
+    difficulty = 10 #velocidad del jugador
     red = 255, 0, 0 #color rogo rbg
     black = 0, 0, 0 #color negro rbg
     white = 255, 255, 255 #color blanco rbg
@@ -33,7 +33,7 @@ def main():
     #coordenadas para el punto inicial de un 'punto'
     p1 = round(random.randint(1, width-difficulty)/difficulty)*difficulty
     p2 = round(random.randint(1, height-difficulty)/difficulty)*difficulty
-    opo = random.randint(0, 20) #numero al azar para el enemigo
+    opo = random.randint(0, 19) #numero al azar para el enemigo
     #print(p1, p2)
     change_x = 0 #varible para sumar a la posicion del jugador(velocidad constante)
     change_y = 0 #varible para sumar a la posicion del jugador(velocidad constante)
@@ -44,7 +44,8 @@ def main():
     battle = 0 #variable para el conteo de batallas luchadas
     timer = 0 #conteo del tiempo en la pantalla 3
     timer_1 = 0 #conteo del tiempo en la pantalla 2
-    ataque_actual = 'GolpeFuego' #variable para el ataque seleccionado actualmente
+    start = 130, 150, 170 #ubicacion 'y' de recomendaciones
+    ataque_actual = 'Seleccione' #variable para el ataque seleccionado actualmente
     pygame.event.set_blocked(pygame.MOUSEMOTION) #funcion para bloquear eventos relacionados con el movimiento del mouse
     clock = pygame.time.Clock() #instancia del reloj interno del juego, para los frames per second
     screen = pygame.display.set_mode(size) #instancia de la ventana
@@ -99,6 +100,7 @@ def main():
                             z[i] = 0
                         a = 20
                         battle += 1
+                        ataque_actual = 'Seleccione'
 
             #frames per second
             msElapsed = clock.tick(30)#fps del juego
@@ -303,11 +305,19 @@ def main():
                     if(event.unicode == 'j'):
                         ataque_actual = 'Terremoto'
                     if(event.key == 32):
-                        opo = random.randint(0, 20)#nuevo oponente al azar
+                        opo = random.randint(0, 19)#nuevo oponente al azar
                         #print(opo)
                         #print(timer_1)
                         if(ataque_actual in mr):#si el ataque es de los recomendados
-                            pantalla = 1
+                            if(ataque_actual == mr[0]):
+                                pointCounter += 3
+                                pantalla = 1
+                            elif(ataque_actual == mr[1]):
+                                pointCounter += 2
+                                pantalla = 1
+                            elif(ataque_actual == mr[2]):
+                                pointCounter += 1
+                                pantalla = 1
                         else:
                             pantalla = 3
 
@@ -344,9 +354,8 @@ def main():
             message_to_screen('j.- Terremoto', yellow, 0, 400)
             message_to_screen('Para atacar presionar la barra esparcidora :)', yellow, 50, 450)
             message_to_screen('Ataques recomendados: ', white, 325, 110)
-            message_to_screen(mr[0], white, 325, 130)
-            message_to_screen(mr[1], white, 325, 150)
-            message_to_screen(mr[2], white, 325, 170)
+            for j in range(len(mr)):
+                message_to_screen(mr[j], white, 325, start[j])
 
             timer_1 += 1
 
@@ -357,6 +366,19 @@ def main():
                 #print(event)
                 if(event.type == pygame.QUIT):
                     sys.exit()
+                if(event.type == pygame.KEYDOWN):
+                    if(event.unicode == 'y'):
+                        pantalla = 0
+                        timer = 0
+                        x = round(((width/2)/difficulty))*difficulty
+                        y = round(((height/2)/difficulty))*difficulty
+                        change_x = 0
+                        change_y = 0
+                        pointCounter = 0
+                        battle = 0
+                        timer_1 = 0
+                    if(event.unicode == 'n'):
+                        sys.exit()
 
             msElapsed = clock.tick(30)#fps
 
@@ -364,8 +386,9 @@ def main():
 
             message_perdiste('YOU LOSE', red, 225, 225)#aparece el mensaje de perdiste
             message_perdiste('Puntaje: '+str(pointCounter), red, 225, 275)#imprimir el contador de puntos
+            message_perdiste('¿Continuar? y/n', red, 225, 375)
 
-            if(timer > 75):#timer antes de salir
+            if(timer > 150):#timer antes de salir
                 sys.exit()
 
             timer += 1

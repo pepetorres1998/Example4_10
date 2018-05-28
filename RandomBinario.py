@@ -311,12 +311,23 @@ def checar_personaje(strh):
     elif(strh == 'KOer Rayo'):
         return KOerRayo
 
+def mejores_seleccionados(mejores):
+    mej = []
+    for i in range(len(mejores)-1):
+        #print(mejores[i])
+        #print(i)
+        if(mejores[i] not in mej):
+            mej.append(mejores[i])
+    return mej
+
+
+
 def main_recomendacion_interfaz(strh1, strh2):
     h1 = checar_personaje(strh1)
     h2 = checar_personaje(strh2)
     mayores_lista = []
     mayores_index = []
-    for i in range(iter):
+    for i in range(iter):#for para controlar iteraciones
         if(i == 0):
             blist = generate_binary(a)
         pos = posicion_true(blist)
@@ -345,6 +356,7 @@ def main_recomendacion_interfaz(strh1, strh2):
     #poderes_recomendados(poder_list, pos)
     mejores_3 = poderes_indiv(poder_list, pos, h1, h2)
     #print(h1.name)
+    mejores_3 = mejores_seleccionados(mejores_3)
     return mejores_3
 
 if(__name__ == '__main__'):
